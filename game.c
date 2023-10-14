@@ -35,7 +35,7 @@ int main() {
         sscanf(input, "%d", &col);
 
         if(col > COLS || col < 0){
-        printf("Invalid input, try again!");
+            printf("Invalid input, try again!");
         }
 
         if(makeMove(game, col)){
