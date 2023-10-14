@@ -5,10 +5,49 @@
 
 #include <stdio.h>
 
+// game.c
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define ROWS 6
+#define COLS 7
+
+typedef struct {
+    char **board;
+    char currentPlayer;
+    int moves;
+} GameState;
+
+GameState* initializeGame();
+void printGame(GameState *game);
+bool makeMove(GameState *game, int col);
+bool checkWinner(GameState *game, int row, int col);
+void freeBoard(GameState *game);
+
 int main() {
-    // Quote from the 1983 film WarGames
-    // Watch the movie for free on Pluto TV
-    // https://pluto.tv/en/on-demand/movies/5e3c8d1a86e96850bcc4a88f
-    printf("A STRANGE GAME.\n");
-    printf("THE ONLY WINNING MOVE IS NOT TO PLAY.\n");
+  
+}
+
+GameState* initializeGame() {
+    GameState *game = malloc(sizeof(GameState));
+    game->board = malloc(sizeof (char *))
+    
+}
+
+void printGame(GameState *game) {
+   
+}
+
+bool makeMove(GameState *game, int col) {
+    
+}
+
+bool checkWinner(GameState *game, int row, int col) {
+    
+}
+
+void freeBoard(GameState *game) {
+    
 }
