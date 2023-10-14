@@ -25,6 +25,19 @@ void freeBoard(GameState *game);
 int main() {
     GameState* game = initializeGame();
     printGame(game);
+    int col;
+    char input[10];
+
+    while (true){
+        printf("Player %c's turn\n", game->curPlayer);
+        fgets(input, sizeof(input), stdin);
+        sscanf(input, "%d", &col);
+
+        makeMove(game, col);
+
+        game->curPlayer = (game->curPlayer == 'X') ? 'O' : 'X';
+
+    }
   
 }
 
@@ -62,6 +75,7 @@ void makeMove(GameState *game, int col){
     printf("Column is full! Try again");
 }
 
+/*
 bool checkWinner(GameState *game, int row, int col){
     
 }
@@ -69,3 +83,4 @@ bool checkWinner(GameState *game, int row, int col){
 void freeBoard(GameState *game){
     
 }
+*/
