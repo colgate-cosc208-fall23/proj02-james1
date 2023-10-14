@@ -16,7 +16,7 @@
 
 typedef struct {
     char **board;
-    char currentPlayer;
+    char curPlayer;
     int moves;
 } GameState;
 
@@ -32,8 +32,16 @@ int main() {
 
 GameState* initializeGame() {
     GameState *game = malloc(sizeof(GameState));
-    game->board = malloc(sizeof (char *))
-    
+    game->board = malloc(sizeof(char *) * ROWS);
+    for(int i = 0; i < ROWS; i++){
+        game->board[i] = malloc(sizeof(char) * COLS);
+        for(int j = 0; i < COLS; j++){
+            game->board[i][j] = ' ';
+        }
+    }
+    game->curPlayer = 'X';
+    game->moves = 0;
+    return game;
 }
 
 void printGame(GameState *game) {
