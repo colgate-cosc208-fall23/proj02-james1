@@ -17,7 +17,7 @@ typedef struct{
 
 GameState* initializeGame();
 void printGame(GameState *game);
-bool makeMove(GameState *game, int col);
+void makeMove(GameState *game, int col);
 bool checkWinner(GameState *game, int row, int col);
 void freeBoard(GameState *game);
 
@@ -50,9 +50,14 @@ void printGame(GameState *game){
     }
 }
 
-/*
-bool makeMove(GameState *game, int col){
-    
+
+void makeMove(GameState *game, int col){
+    for(int i = ROWS-1; i >= 0; i--){
+        if(game->board[i][col] == ' '){
+            game->board[i][col] = game->curPlayer;
+            game->moves+=1;
+        }
+    }
 }
 
 bool checkWinner(GameState *game, int row, int col){
@@ -62,4 +67,3 @@ bool checkWinner(GameState *game, int row, int col){
 void freeBoard(GameState *game){
     
 }
-*/
