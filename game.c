@@ -3,11 +3,6 @@
  * COSC 208, Introduction to Computer Systems, Fall 2023
  *****/
 
-#include <stdio.h>
-
-// game.c
-
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
