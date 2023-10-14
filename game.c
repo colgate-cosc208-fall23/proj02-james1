@@ -3,6 +3,7 @@
  * COSC 208, Introduction to Computer Systems, Fall 2023
  *****/
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -58,6 +59,7 @@ void makeMove(GameState *game, int col){
             game->moves+=1;
         }
     }
+    printf("Column is full! Try again");
 }
 
 bool checkWinner(GameState *game, int row, int col){
