@@ -1,6 +1,7 @@
 /*****
  * Project 02: Grid game
  * COSC 208, Introduction to Computer Systems, Fall 2023
+ * James Burke
  *****/
 
 #include <stdio.h>
@@ -18,7 +19,7 @@ typedef struct{
 
 GameState* initializeGame();
 void printGame(GameState *game);
-void makeMove(GameState *game, int col);
+bool makeMove(GameState *game, int col);
 bool checkWinner(GameState *game, int row, int col);
 void freeBoard(GameState *game);
 
@@ -33,7 +34,17 @@ int main() {
         fgets(input, sizeof(input), stdin);
         sscanf(input, "%d", &col);
 
-        makeMove(game, col);
+        if(col > COLS || col < 0){
+        printf("Invalid input, try again!");
+        }
+
+        if(makeMove(game, col)){
+            printGame(game);
+            printf("Player %c wins! Play again?", game->curPlayer);
+            break;
+        }
+
+        printGame(game);
 
         game->curPlayer = (game->curPlayer == 'X') ? 'O' : 'X';
 
@@ -65,21 +76,25 @@ void printGame(GameState *game){
 }
 
 
-void makeMove(GameState *game, int col){
+bool makeMove(GameState *game, int col){
     for(int i = ROWS-1; i >= 0; i--){
         if(game->board[i][col] == ' '){
             game->board[i][col] = game->curPlayer;
             game->moves+=1;
+            return (checkWinner(game, i, col));
         }
     }
-    printf("Column is full! Try again");
+    printf("Column is full! Try again\n");
+    return false;
+}
+
+
+bool checkWinner(GameState *game, int row, int col){
+    int dir[4][2] = {{0,1}, {1,0}, {1,1}, {1,-1}};
+    return false; 
 }
 
 /*
-bool checkWinner(GameState *game, int row, int col){
-    
-}
-
 void freeBoard(GameState *game){
     
 }
