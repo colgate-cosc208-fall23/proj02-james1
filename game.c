@@ -30,7 +30,7 @@ int main() {
     char input[10];
 
     while (true){
-        printf("Player %c's turn\n", game->curPlayer);
+        printf("Player %c's turn. Moves: %d\n", game->curPlayer, game->moves);
         fgets(input, sizeof(input), stdin);
         sscanf(input, "%d", &col);
 
@@ -40,7 +40,7 @@ int main() {
 
         if(makeMove(game, col)){
             printGame(game);
-            printf("Player %c wins! Play again?", game->curPlayer);
+            printf("Player %c wins! Play again?\n", game->curPlayer);
             break;
         }
 
@@ -49,6 +49,8 @@ int main() {
         game->curPlayer = (game->curPlayer == 'X') ? 'O' : 'X';
 
     }
+
+    freeBoard(game->board);
 }
 
 GameState* initializeGame(){
@@ -109,8 +111,9 @@ bool checkWinner(GameState *game, int row, int col){
     }
     return false;
 }
-/*
+
 void freeBoard(GameState *game){
-    
+    for(int i = 0; i < ROWS; i++){
+        free(game->board[i]);
+    }
 }
-*/
