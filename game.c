@@ -36,6 +36,7 @@ int main() {
 
         if(col > COLS || col < 0){
             printf("Invalid input, try again!");
+            continue;
         }
 
         if(makeMove(game, col)){
@@ -90,22 +91,26 @@ bool makeMove(GameState *game, int col){
 
 bool checkWinner(GameState *game, int row, int col){
     int dir[4][2] = {{0,1}, {1,0}, {1,1}, {1,-1}};
+    char piece = game->curPlayer;
     for(int i = 0; i < 4; i++){
         int ct = 1;
-        int dirX = dir[i][0];
-        int dirY = dir[i][1];
+        //using -1 and 1 to check left and right adjancency was inspired by OpenAI's ChatGPT (licensing agreement provided at end of code)
+        for(int j = -1; j <= 1; j+=2){
+            int dirX = dir[i][0] * j;
+            int dirY = dir[i][1] * j;
+        
+            int newRow = row + dirX;
+            int newCol = col + dirY;
 
-        int newRow = row + dirX;
-        int newCol = col + dirY;
-
-        printf("dirX = %d, dirY = %d \n", dirX, dirY);
-        printf("newRow = %d, newCol = %d \n", newRow, newCol);
-        while(newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS && (game->board[row][col] == game->board[newRow][newCol])){
-            ct++;
-            newRow += dirX;
-            newCol += dirY;
-            if(ct == 4){
-                return true;
+            printf("dirX = %d, dirY = %d \n", dirX, dirY);
+            printf("newRow = %d, newCol = %d \n", newRow, newCol);
+            while(newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS && (game->board[newRow][newCol] == piece)){
+                ct++;
+                if(ct == 4){
+                    return true;
+                }
+                newRow += dirX;
+                newCol += dirY;
             }
         }
     }
@@ -116,4 +121,6 @@ void freeBoard(GameState *game){
     for(int i = 0; i < ROWS; i++){
         free(game->board[i]);
     }
+    free(game->board);
+    free(game);
 }
