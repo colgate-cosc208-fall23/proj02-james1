@@ -91,14 +91,28 @@ bool makeMove(GameState *game, int col){
 
 bool checkWinner(GameState *game, int row, int col){
     int dir[4][2] = {{0,1}, {1,0}, {1,1}, {1,-1}};
-    int ct = 0;
     for(int i = 0; i < 4; i++){
+        int ct = 1;
         int dirX = dir[i][0];
         int dirY = dir[i][1];
+
+        int newRow = row + dirX;
+        int newCol = col + dirY;
+
         printf("dirX = %d, dirY = %d \n", dirX, dirY);
+        printf("newRow = %d, newCol = %d \n", newRow, newCol);
+        /*if(game->board[row][col] == game->board[newRow][newCol]){
+            ct++;
+            if(ct == 4){
+                return true;
+            }
+        }
+        */
     }
     return false;
 }
+    
+
 
 /*
 void freeBoard(GameState *game){
