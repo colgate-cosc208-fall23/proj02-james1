@@ -12,15 +12,16 @@
 #define COLS 7
 #define WIN_COUNT 4
 
-struct GameState;
-
+//use of typedef to avoid having to declare struct before every instance of GameState
 typedef struct{
     char **board;
     char curPlayer;
     int moves;
 } GameState;
 
+//function prototypes 
 GameState* initializeGame();
+void printInstructions();
 void printGame(GameState *game);
 bool makeMove(GameState *game, int col);
 bool checkWinner(GameState *game, int row, int col);
@@ -28,6 +29,7 @@ void freeBoard(GameState *game);
 
 int main() {
     GameState* game = initializeGame();
+    printInstructions();
     printGame(game);
     int col;
     char input[10];
@@ -62,6 +64,15 @@ int main() {
     freeBoard(game);
 }
 
+//prints game instructions
+void printInstructions(){
+    printf("Welcome to Connect Four!\n");
+    printf("In this two player game, both players will alternate turns placing their chips in the board.\n");
+    printf("The first player to place 4 consecutive pieces in a row, either horizontally, vertically, or diagonally, wins!\n");
+    printf("If the board is filled without any player satisfying the win condition, the game will end in a draw.\n");
+}
+
+//initializes the game by mallocing space for the rows and columns on the game board as well as setting the current player and moves to 0
 GameState* initializeGame(){
     GameState *game = malloc(sizeof(GameState));
     game->board = malloc(sizeof(char *) * ROWS);
@@ -76,6 +87,7 @@ GameState* initializeGame(){
     return game;
 }
 
+//prints a copy of the current game board
 void printGame(GameState *game){
     for(int i = 0; i < ROWS; i++){
         for(int j = 0; j < COLS; j++){
@@ -85,6 +97,7 @@ void printGame(GameState *game){
     }
 }
 
+//checks if the board is full by iterating through the entire array to check if there are any space characters
 bool checkFull(GameState *game){
     for(int i = 0; i < ROWS; i++){
         for(int j = 0; j < COLS; j++){
@@ -96,6 +109,7 @@ bool checkFull(GameState *game){
     return true;
 }
 
+//starts at the bottom of the board and adds a player piece at the first free space
 bool makeMove(GameState *game, int col){
     for(int i = ROWS-1; i >= 0; i--){
         if(game->board[i][col] == ' '){
@@ -134,6 +148,7 @@ bool checkWinner(GameState *game, int row, int col){
     return false;
 }
 
+//frees the game board by first freeing every row, then the board, and finally the game struct itself
 void freeBoard(GameState *game){
     for(int i = 0; i < ROWS; i++){
         free(game->board[i]);
