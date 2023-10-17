@@ -10,6 +10,9 @@
 
 #define ROWS 6
 #define COLS 7
+#define WIN_COUNT 4
+
+struct GameState;
 
 typedef struct{
     char **board;
@@ -35,24 +38,28 @@ int main() {
         fgets(input, sizeof(input), stdin);
         sscanf(input, "%d", &col);
 
-        if(col > COLS || col < 0){
-            printf("Invalid input, try again!");
+        if(col >= COLS || col < 0){
+            printf("Invalid input, try again!\n");
             continue;
+        }
+
+        if(checkFull(game)){
+            printf("Board is full, its a draw! Play again?\n");
+            play = false;
+            break;
         }
 
         if(makeMove(game, col)){
             printGame(game);
             printf("Player %c wins! Play again?\n", game->curPlayer);
             play = false;
+        } else {
+            printGame(game);
+            game->curPlayer = (game->curPlayer == 'X') ? 'O' : 'X';
         }
-
-        printGame(game);
-
-        game->curPlayer = (game->curPlayer == 'X') ? 'O' : 'X';
-
     }
 
-    freeBoard(game->board);
+    freeBoard(game);
 }
 
 GameState* initializeGame(){
@@ -78,6 +85,17 @@ void printGame(GameState *game){
     }
 }
 
+bool checkFull(GameState *game){
+    for(int i = 0; i < ROWS; i++){
+        for(int j = 0; j < COLS; j++){
+            if(game->board[i][j] == ' '){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 bool makeMove(GameState *game, int col){
     for(int i = ROWS-1; i >= 0; i--){
         if(game->board[i][col] == ' '){
@@ -93,7 +111,7 @@ bool makeMove(GameState *game, int col){
 bool checkWinner(GameState *game, int row, int col){
     int dir[4][2] = {{0,1}, {1,0}, {1,1}, {1,-1}};
     char piece = game->curPlayer;
-    for(int i = 0; i < 4; i++){
+    for(int i = 0; i < WIN_COUNT; i++){
         int ct = 1;
         //using -1 and 1 to check left and right adjancency was inspired by OpenAI's ChatGPT (licensing agreement provided at end of code)
         for(int j = -1; j <= 1; j+=2){
@@ -103,11 +121,9 @@ bool checkWinner(GameState *game, int row, int col){
             int newRow = row + dirX;
             int newCol = col + dirY;
 
-            printf("dirX = %d, dirY = %d \n", dirX, dirY);
-            printf("newRow = %d, newCol = %d \n", newRow, newCol);
             while(newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS && (game->board[newRow][newCol] == piece)){
                 ct++;
-                if(ct == 4){
+                if(ct == WIN_COUNT){
                     return true;
                 }
                 newRow += dirX;
