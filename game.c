@@ -28,8 +28,9 @@ int main() {
     printGame(game);
     int col;
     char input[10];
+    bool play = true;
 
-    while (true){
+    while (play){
         printf("Player %c's turn. Moves: %d\n", game->curPlayer, game->moves);
         fgets(input, sizeof(input), stdin);
         sscanf(input, "%d", &col);
@@ -42,7 +43,7 @@ int main() {
         if(makeMove(game, col)){
             printGame(game);
             printf("Player %c wins! Play again?\n", game->curPlayer);
-            break;
+            play = false;
         }
 
         printGame(game);
@@ -124,3 +125,13 @@ void freeBoard(GameState *game){
     free(game->board);
     free(game);
 }
+
+/* via OpenAI:
+The code provided by me (or any other OpenAI model) is generated on-the-fly and is not copyrighted or 
+sourced from any specific external location. You're free to use, modify, and distribute the code as you see fit.
+Licensing Requirements:
+There are no specific licensing requirements for the code. 
+You can consider it as being under a permissive license, like the MIT License or similar, 
+which means you can use it for any purpose without any restrictions, and you're not 
+required to include the original copyright notice or disclaimers.
+*/
