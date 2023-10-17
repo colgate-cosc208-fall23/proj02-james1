@@ -49,7 +49,6 @@ int main() {
         game->curPlayer = (game->curPlayer == 'X') ? 'O' : 'X';
 
     }
-  
 }
 
 GameState* initializeGame(){
@@ -75,7 +74,6 @@ void printGame(GameState *game){
     }
 }
 
-
 bool makeMove(GameState *game, int col){
     for(int i = ROWS-1; i >= 0; i--){
         if(game->board[i][col] == ' '){
@@ -87,7 +85,6 @@ bool makeMove(GameState *game, int col){
     printf("Column is full! Try again\n");
     return false;
 }
-
 
 bool checkWinner(GameState *game, int row, int col){
     int dir[4][2] = {{0,1}, {1,0}, {1,1}, {1,-1}};
@@ -101,19 +98,17 @@ bool checkWinner(GameState *game, int row, int col){
 
         printf("dirX = %d, dirY = %d \n", dirX, dirY);
         printf("newRow = %d, newCol = %d \n", newRow, newCol);
-        /*if(game->board[row][col] == game->board[newRow][newCol]){
+        while(newRow >= 0 && newRow < ROWS && newCol >= 0 && newCol < COLS && (game->board[row][col] == game->board[newRow][newCol])){
             ct++;
+            newRow += dirX;
+            newCol += dirY;
             if(ct == 4){
                 return true;
             }
         }
-        */
     }
     return false;
 }
-    
-
-
 /*
 void freeBoard(GameState *game){
     
