@@ -91,7 +91,13 @@ bool makeMove(GameState *game, int col){
 
 bool checkWinner(GameState *game, int row, int col){
     int dir[4][2] = {{0,1}, {1,0}, {1,1}, {1,-1}};
-    return false; 
+    int ct = 0;
+    for(int i = 0; i < 4; i++){
+        int dirX = dir[i][0];
+        int dirY = dir[i][1];
+        printf("dirX = %d, dirY = %d \n", dirX, dirY);
+    }
+    return false;
 }
 
 /*
