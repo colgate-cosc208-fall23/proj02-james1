@@ -25,6 +25,7 @@ void printInstructions();
 void printGame(GameState *game);
 bool makeMove(GameState *game, int col);
 bool checkWinner(GameState *game, int row, int col);
+bool checkFull(GameState *game);
 void freeBoard(GameState *game);
 
 int main() {
@@ -94,7 +95,12 @@ void printGame(GameState *game){
             printf("|%c", game->board[i][j]);
         }
         printf("|\n");
+        for(int k = 0; k < (COLS*2)+1; k++){
+            printf("-");
+        }
+        printf("\n");
     }
+    printf(" 0 1 2 3 4 5 6\n");
 }
 
 //checks if the board is full by iterating through the entire array to check if there are any space characters
