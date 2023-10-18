@@ -29,40 +29,50 @@ bool checkFull(GameState *game);
 void freeBoard(GameState *game);
 
 int main() {
-    GameState* game = initializeGame();
-    printInstructions();
-    printGame(game);
-    int col;
-    char input[10];
-    bool play = true;
+    char playAgain = 'y';
 
-    while (play){
-        printf("Player %c's turn. Moves: %d\n", game->curPlayer, game->moves);
-        fgets(input, sizeof(input), stdin);
-        sscanf(input, "%d", &col);
+    while(playAgain == 'y' || playAgain == 'Y') {
+        GameState* game = initializeGame();
+        printInstructions();
+        printGame(game);
+        int col;
+        char input[10];
+        bool play = true;
 
-        if(col >= COLS || col < 0){
-            printf("Invalid input, try again!\n");
-            continue;
+        while (play){
+            printf("Player %c's turn. Moves: %d\n", game->curPlayer, game->moves);
+            fgets(input, sizeof(input), stdin);
+            sscanf(input, "%d", &col);
+
+            if(col >= COLS || col < 0){
+                printf("Invalid input, try again!\n");
+                continue;
+            }
+
+            if(checkFull(game)){
+                printf("Board is full, its a draw! Play again?\n");
+                play = false;
+                break;
+            }
+
+            if(makeMove(game, col)){
+                printGame(game);
+                printf("Player %c wins!\n", game->curPlayer);
+                play = false;
+            } else {
+                printGame(game);
+                game->curPlayer = (game->curPlayer == 'X') ? 'O' : 'X';
+            }
         }
+        printf("Do you want to play again? (y/n): ");
+        playAgain = getchar();
+        while (getchar() != '\n'); 
 
-        if(checkFull(game)){
-            printf("Board is full, its a draw! Play again?\n");
-            play = false;
-            break;
-        }
-
-        if(makeMove(game, col)){
-            printGame(game);
-            printf("Player %c wins! Play again?\n", game->curPlayer);
-            play = false;
-        } else {
-            printGame(game);
-            game->curPlayer = (game->curPlayer == 'X') ? 'O' : 'X';
-        }
+        freeBoard(game);
     }
 
-    freeBoard(game);
+    printf("Thanks for playing!\n");
+    return 0;
 }
 
 //prints game instructions
@@ -90,6 +100,10 @@ GameState* initializeGame(){
 
 //prints a copy of the current game board
 void printGame(GameState *game){
+    for(int p = 0; p < (COLS*2)+1; p++){
+        printf("-");
+    }
+    printf("\n");
     for(int i = 0; i < ROWS; i++){
         for(int j = 0; j < COLS; j++){
             printf("|%c", game->board[i][j]);
@@ -117,9 +131,10 @@ bool checkFull(GameState *game){
 
 //starts at the bottom of the board and adds a player piece at the first free space
 bool makeMove(GameState *game, int col){
+    char piece = game->curPlayer;
     for(int i = ROWS-1; i >= 0; i--){
         if(game->board[i][col] == ' '){
-            game->board[i][col] = game->curPlayer;
+            game->board[i][col] = piece;
             game->moves+=1;
             return (checkWinner(game, i, col));
         }
@@ -128,6 +143,7 @@ bool makeMove(GameState *game, int col){
     return false;
 }
 
+//uses a 2D array to store each possible direction, then check left and right adjanceny through each during using a nested for and while loop
 bool checkWinner(GameState *game, int row, int col){
     int dir[4][2] = {{0,1}, {1,0}, {1,1}, {1,-1}};
     char piece = game->curPlayer;
