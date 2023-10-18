@@ -66,11 +66,10 @@ int main() {
         }
         printf("Do you want to play again? (y/n): ");
         playAgain = getchar();
+        //this line was suggested by OpenAI's ChatGPT during my debug process in order to make sure terminal is completely clear of input in case a user provides invalid input
         while (getchar() != '\n'); 
-
         freeBoard(game);
     }
-
     printf("Thanks for playing!\n");
     return 0;
 }
