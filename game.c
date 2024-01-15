@@ -66,7 +66,6 @@ int main() {
         }
         printf("Do you want to play again? (y/n): ");
         playAgain = getchar();
-        //this line was suggested by OpenAI's ChatGPT during my debug process in order to make sure terminal is completely clear of input in case a user provides invalid input
         while (getchar() != '\n'); 
         freeBoard(game);
     }
@@ -148,7 +147,6 @@ bool checkWinner(GameState *game, int row, int col){
     char piece = game->curPlayer;
     for(int i = 0; i < WIN_COUNT; i++){
         int ct = 1;
-        //using -1 and 1 to check left and right adjancency was inspired by OpenAI's ChatGPT (licensing agreement provided at end of code)
         for(int j = -1; j <= 1; j+=2){
             int dirX = dir[i][0] * j;
             int dirY = dir[i][1] * j;
@@ -177,13 +175,3 @@ void freeBoard(GameState *game){
     free(game->board);
     free(game);
 }
-
-/* via OpenAI:
-The code provided by me (or any other OpenAI model) is generated on-the-fly and is not copyrighted or 
-sourced from any specific external location. You're free to use, modify, and distribute the code as you see fit.
-Licensing Requirements:
-There are no specific licensing requirements for the code. 
-You can consider it as being under a permissive license, like the MIT License or similar, 
-which means you can use it for any purpose without any restrictions, and you're not 
-required to include the original copyright notice or disclaimers.
-*/
